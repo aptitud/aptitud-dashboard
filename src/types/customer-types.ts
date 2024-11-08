@@ -1,4 +1,7 @@
+export type CustomerType = "Customer" | "NeedAssignment" | "ParentalLeave";
+
 interface TrelloCard {
+    id: string;
     url: string;
 }
 
@@ -8,13 +11,18 @@ interface MapLocation {
 }
 
 export interface Contract {
-    consultant: string;
+    consultant: {
+        name: string;
+        trello?: TrelloCard;
+        map?: MapLocation;
+    };
     startDate: Date;
     endDate: Date;
 }
 
 export interface Customer {
     name: string;
+    type: CustomerType;
     trello?: TrelloCard;
     map?: MapLocation;
     contracts: Contract[];

@@ -4,13 +4,31 @@ import { getCustomers } from "@/services/customer-service";
 
 export default async function CustomersPage() {
     const currentDate = new Date();
-    const customers = await getCustomers();
+    const allcustomers = await getCustomers();
+
+    const needAssignment = allcustomers.filter((p) => p.type === "NeedAssignment");
+    const parentalLeave = allcustomers.filter((p) => p.type === "ParentalLeave");
+    const customers = allcustomers.filter((p) => p.type === "Customer");
+
     return (
         <div className="grid grid-cols-customers gap-1">
             <div></div>
             <MonthHeader currentDate={currentDate} />
+
+            {needAssignment.map((customer) => (
+                <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
+            ))}
+
+            <div className="col-span-13 h-6"></div>
+
             {customers.map((customer) => (
-                <CustomerRow currentDate={currentDate} customer={customer} />
+                <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
+            ))}
+
+            <div className="col-span-13 h-2"></div>
+
+            {parentalLeave.map((customer) => (
+                <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
             ))}
         </div>
     );

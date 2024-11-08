@@ -1,3 +1,4 @@
+import { Span } from "next/dist/trace";
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,7 +54,10 @@ export default {
                 sm: "calc(var(--radius) - 4px)",
             },
             gridTemplateColumns: {
-                customers: "200px, repeat(12, minmax(0, 1fr))",
+                customers: "auto, repeat(12, minmax(0, 1fr))",
+            },
+            gridColumn: {
+                "span-13": "span 13 / span 13",
             },
         },
     },
@@ -71,6 +75,7 @@ export default {
         "col-span-10",
         "col-span-11",
         "col-span-12",
+        "col-span-13",
         "row-span-1",
         "row-span-2",
         "row-span-3",
