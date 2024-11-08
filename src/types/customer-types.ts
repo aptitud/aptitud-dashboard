@@ -7,13 +7,15 @@ interface MapLocation {
     lat: string;
 }
 
+export interface Contract {
+    consultant: string;
+    startDate: Date;
+    endDate: Date;
+}
+
 export interface Customer {
     name: string;
     trello?: TrelloCard;
     map?: MapLocation;
-    employees: {
-        name: string;
-        startDate: Date;
-        endDate: Date;
-    }[];
+    contracts: Contract[];
 }
