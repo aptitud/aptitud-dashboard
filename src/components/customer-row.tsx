@@ -1,11 +1,11 @@
+import { getMonths, Month } from "@/lib/date-helper";
 import { cn } from "@/lib/utils";
 import { Contract, Customer } from "@/types/customer-types";
-import { Button } from "./ui/button";
 import Link from "next/link";
 
 type ContractInformation = {
     activeContract: boolean;
-    consultant: {
+    employee: {
         name: string;
         trelloUrl?: string;
     };
@@ -14,18 +14,13 @@ type ContractInformation = {
     endDate?: Date;
 };
 
-type Month = {
-    from: Date;
-    to: Date;
-};
-
 type Props = {
     customer: Customer;
     currentDate: Date;
 };
 
 export function CustomerRow({ customer, currentDate }: Props) {
-    let months = getMonths(currentDate, 12);
+    const months = getMonths(currentDate, 12);
     const firstDateInPeriod = months[0].from;
     const lastDateInPeriod = months[months.length - 1].to;
 
@@ -68,16 +63,16 @@ const ContractInformationComponent = ({ contractInformation, needAssignment, par
     className = contractInformation.activeContract && parentalLeave ? cn(className, "bg-yellow-700") : className;
 
     const title = contractInformation.activeContract
-        ? `${contractInformation.consultant} - ${contractInformation.startDate?.toLocaleDateString()} - ${contractInformation.endDate?.toLocaleDateString()}`
+        ? `${contractInformation.employee.name} - ${contractInformation.startDate?.toLocaleDateString()} - ${contractInformation.endDate?.toLocaleDateString()}`
         : undefined;
 
-    const key = contractInformation.activeContract ? title : contractInformation.consultant.name;
+    const key = contractInformation.activeContract ? title : contractInformation.employee.name;
     return (
         <div key={key} className={className} title={title}>
             {contractInformation.activeContract ? (
-                contractInformation.consultant.trelloUrl ? (
-                    <Link href={contractInformation.consultant.trelloUrl} target="_blank">
-                        {contractInformation.consultant.name}
+                contractInformation.employee.trelloUrl ? (
+                    <Link href={contractInformation.employee.trelloUrl} target="_blank">
+                        {contractInformation.employee.name}
                     </Link>
                 ) : (
                     <span></span>
@@ -104,8 +99,7 @@ const getContractInformations = (contract: Contract, months: Month[]): ContractI
 
 const getContractInformation = (contract: Contract, months: Month[], monthOffest: number): ContractInformation => {
     const currentMonths = [...months.slice(monthOffest)];
-
-    let activeContract = isContractInPeriod(contract, currentMonths[0].from, currentMonths[0].to);
+    const activeContract = isContractInPeriod(contract, currentMonths[0].from, currentMonths[0].to);
     let numberOfMonths = 1;
 
     for (let index = 1; index < currentMonths.length; index++) {
@@ -114,9 +108,9 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
         if (isContractInPeriod(contract, currentMonth.from, currentMonth.to) !== activeContract) {
             return {
                 activeContract,
-                consultant: {
-                    name: contract.consultant.name,
-                    trelloUrl: contract.consultant.trello?.url,
+                employee: {
+                    name: contract.employee.name,
+                    trelloUrl: contract.employee.trello?.url,
                 },
                 numberOfMonths,
                 startDate: activeContract ? contract.startDate : undefined,
@@ -129,9 +123,9 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
 
     return {
         activeContract,
-        consultant: {
-            name: contract.consultant.name,
-            trelloUrl: contract.consultant.trello?.url,
+        employee: {
+            name: contract.employee.name,
+            trelloUrl: contract.employee.trello?.url,
         },
         numberOfMonths,
         startDate: activeContract ? contract.startDate : undefined,
@@ -141,28 +135,4 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
 
 const isContractInPeriod = (contract: Contract, periodStart: Date, periodEnd: Date) => {
     return (contract.startDate <= periodStart && contract.endDate >= periodStart) || (contract.startDate >= periodStart && contract.startDate <= periodEnd);
-};
-
-const getMonths = (date: Date, numberOfMonth: number): Month[] => {
-    let months = new Array<Month>(numberOfMonth);
-
-    for (let index = 0; index < numberOfMonth; index++) {
-        months[index] = {
-            from: getFirstDateInMonth(date, index),
-            to: getLastDateInMonth(date, index),
-        };
-    }
-    return months;
-};
-
-const getFirstDateInMonth = (date: Date, monthOffset: number) => {
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth();
-    return new Date(Date.UTC(year, month + monthOffset, 1));
-};
-
-const getLastDateInMonth = (date: Date, monthOffset: number) => {
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth();
-    return new Date(Date.UTC(year, month + 1 + monthOffset, 0));
 };

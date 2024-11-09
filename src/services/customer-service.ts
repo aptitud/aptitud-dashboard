@@ -1,7 +1,6 @@
 import { Customer } from "@/types/customer-types";
 import { getCustomerCards, getEmployeeCards } from "./trello";
 import { mapToCustomer } from "./trello-customer-mapper";
-import { CustomerCard } from "./trello-types";
 
 export const getCustomers = async (): Promise<Customer[]> => {
     const customerCards = await getCustomerCards();
@@ -22,14 +21,14 @@ const dummyData: Customer[] = [
         },
         contracts: [
             {
-                consultant: {
+                employee: {
                     name: "Ann Vändare",
                 },
                 startDate: new Date("2025-01-13"),
                 endDate: new Date("2025-03-05"),
             },
             {
-                consultant: {
+                employee: {
                     name: "Nisse Landgren",
                 },
                 startDate: new Date("2021-12-13"),

@@ -1,4 +1,5 @@
-import { Contract, Customer, CustomerType } from "@/types/customer-types";
+import { CustomerType } from "@/types/base-types";
+import { Contract, Customer } from "@/types/customer-types";
 import { CustomerCard, EmployeeCard } from "./trello-types";
 import { trelloConfig } from "@/configs/trello-config";
 
@@ -14,13 +15,11 @@ export const mapToCustomer = (customerCard: CustomerCard, employeeCards: Employe
     };
 };
 
-const getCustomerType = (customerCard: CustomerCard): CustomerType => {
-    const config = trelloConfig();
-
+export const getCustomerType = (customerCard: CustomerCard): CustomerType => {
     switch (customerCard.id) {
-        case config.NeedAssignmentCardId:
+        case trelloConfig.NeedAssignmentCardId:
             return "NeedAssignment";
-        case config.ParentalLeaveCardId:
+        case trelloConfig.ParentalLeaveCardId:
             return "ParentalLeave";
         default:
             return "Customer";
@@ -37,11 +36,11 @@ const getCustomerContracts = (description: string, employeeCards: EmployeeCard[]
             if (e.indexOf(contractPartSeparator) === -1) return null;
 
             const contractParts = e.split(contractPartSeparator);
-            const consultant = contractParts[0].trim();
-            const employeeCard = employeeCards?.find((x) => x.name === consultant);
+            const employee = contractParts[0].trim();
+            const employeeCard = employeeCards?.find((x) => x.name === employee);
 
             return {
-                consultant: {
+                employee: {
                     name: contractParts[0].trim(),
                     trello: employeeCard
                         ? {

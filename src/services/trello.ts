@@ -1,8 +1,6 @@
 import { trelloConfig } from "@/configs/trello-config";
 import { CustomerCard, EmployeeCard } from "./trello-types";
 
-const config = trelloConfig();
-
 const options: RequestInit = {
     headers: {
         "Content-Type": "application/json",
@@ -14,7 +12,7 @@ const options: RequestInit = {
 
 export const getCustomerCards = async (): Promise<CustomerCard[]> => {
     try {
-        const url = getUrl(`lists/${config.ASSIGNMENTS_LIST_ID}/cards`);
+        const url = getUrl(`lists/${trelloConfig.AssignmentsBoardId}/cards`);
         const response = await fetch(url, options);
         if (!response.ok) throw new Error("Could not fetch customer cards from Trello");
         return await response.json();
@@ -26,10 +24,11 @@ export const getCustomerCards = async (): Promise<CustomerCard[]> => {
 
 export const getEmployeeCards = async (): Promise<EmployeeCard[]> => {
     try {
-        const url = getUrl(`lists/${config.EMPLOYEES_BOARD_ID}/cards`);
+        const url = getUrl(`lists/${trelloConfig.EmployeesBoarId}/cards`);
         const response = await fetch(url, options);
         if (!response.ok) throw new Error("Could not fetch employee cards from Trello");
-        return response.json();
+        const result: EmployeeCard[] = await response.json();
+        return result.filter((p) => p.idMembers.length > 0);
     } catch (error) {
         console.error(error);
         throw new Error("Failed to fetch emloyee cards from Trello");
@@ -37,5 +36,5 @@ export const getEmployeeCards = async (): Promise<EmployeeCard[]> => {
 };
 
 const getUrl = (resource: string) => {
-    return `https://trello.com/1/${resource}?key=${config.KEY}&token=${config.TOKEN}`;
+    return `https://trello.com/1/${resource}?key=${trelloConfig.Key}&token=${trelloConfig.Token}`;
 };
