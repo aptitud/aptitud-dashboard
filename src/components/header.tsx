@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Users2, Building2, Map } from "lucide-react";
 import Link from "next/link";
 import { UserMenu } from "@/components/auth/user-menu";
+import { MoreMenu } from "./more-menu";
 
 interface HeaderProps {
     className?: string;
@@ -29,6 +30,7 @@ export function Header({ className }: HeaderProps) {
                     <NavItem icon={<Building2 className="h-5 w-5" />} href="/customers" label="Customers" />
                     <NavItem icon={<Users2 className="h-5 w-5" />} href="/employees" label="Employees" />
                     <NavItem icon={<Map className="h-5 w-5" />} href="/map" label="Map" />
+                    <MoreMenu />
                 </nav>
                 <div className="hidden flex-1 justify-center md:flex">
                     <h1 className="text-lg font-semibold">Aptitud Dashboard</h1>
