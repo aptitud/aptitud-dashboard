@@ -1,10 +1,10 @@
-import { MapLocation, TrelloCard, CustomerType } from "./base-types";
+import { Location, TrelloCard, CustomerType } from "./base-types";
 
 export interface Customer {
     name: string;
     type: CustomerType;
     trello?: TrelloCard;
-    map?: MapLocation;
+    location?: Location;
 }
 export interface Contract {
     customer: Customer;
@@ -15,6 +15,6 @@ export interface Contract {
 export interface Employee {
     name: string;
     trello?: TrelloCard;
-    map?: MapLocation;
+    location?: Location;
     contracts: Contract[];
 }

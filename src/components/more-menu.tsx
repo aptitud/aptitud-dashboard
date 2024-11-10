@@ -1,7 +1,7 @@
 import { MoreHorizontal, RefreshCw } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import refreshTrello from "@/server-actions/refresh-trello";
+import { refreshAll } from "@/server-actions/refresh";
 
 export function MoreMenu() {
     return (
@@ -12,7 +12,7 @@ export function MoreMenu() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-                <DropdownMenuItem onClick={refreshTrello} className="cursor-pointer hover:bg-accent">
+                <DropdownMenuItem onClick={refreshAll} className="cursor-pointer hover:bg-accent">
                     <RefreshCw className="mr-2 h-4 w-4" />
                     <span>Refresh</span>
                 </DropdownMenuItem>

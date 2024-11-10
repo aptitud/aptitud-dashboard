@@ -5,7 +5,7 @@ export interface TrelloCard {
     url: string;
 }
 
-export interface MapLocation {
-    long: string;
-    lat: string;
+export interface Location {
+    lat: number;
+    lng: number;
 }
