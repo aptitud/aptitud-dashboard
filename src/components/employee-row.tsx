@@ -40,7 +40,7 @@ export function EmployeeRow({ employee, currentDate }: Props) {
                 )}
             </div>
             {contractInformations.map((contractInformation) => (
-                <ContractInformationComponent contractInformation={contractInformation} />
+                <ContractInformationComponent key={`${contractInformation.customer?.name}-${contractInformation.startDate}`} contractInformation={contractInformation} />
             ))}
         </>
     );

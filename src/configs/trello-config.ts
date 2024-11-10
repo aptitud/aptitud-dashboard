@@ -2,6 +2,7 @@ export const trelloConfig = {
     Key: process.env.TRELLO_KEY,
     Token: process.env.TRELLO_TOKEN,
 
+    OrganizationId: process.env.TRELLO_ORGANISATION_ID,
     EmployeesBoarId: process.env.TRELLO_BOARD_EMPLOYEES,
     StatusBoardId: process.env.TRELLO_BOARD_STATUS,
     AssignmentsBoardId: process.env.TRELLO_BOARD_ASSIGNMENTS,

@@ -13,3 +13,9 @@ export type EmployeeCard = {
     idMembers: string[];
     desc: string;
 };
+
+export type Member = {
+    id: string;
+    fullName: string;
+    avatarUrl: string;
+};

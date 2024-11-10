@@ -1,5 +1,5 @@
 import { trelloConfig } from "@/configs/trello-config";
-import { CustomerCard, EmployeeCard } from "./trello-types";
+import { CustomerCard, EmployeeCard, Member } from "./trello-types";
 
 const fetchOptions: RequestInit = {
     headers: {
@@ -33,6 +33,25 @@ export const getEmployeeCards = async (): Promise<EmployeeCard[]> => {
     }
 };
 
-const getUrl = (resource: string) => {
-    return `https://trello.com/1/${resource}?key=${trelloConfig.Key}&token=${trelloConfig.Token}`;
+export const getMembers = async (): Promise<Member[]> => {
+    try {
+        const url = getUrl(`organizations/${trelloConfig.OrganizationId}/members`, "fullName,avatarUrl");
+        console.log({ url });
+        const response = await fetch(url, fetchOptions);
+        if (!response.ok) throw new Error("Could not fetch members from Trello");
+        const a = await response.json();
+        console.log(JSON.stringify(a, null, 2));
+        return a;
+    } catch (error) {
+        console.error(error);
+        throw new Error("Failed to fetch members from Trello");
+    }
+};
+
+const getUrl = (resource: string, fields?: string) => {
+    let url = `https://api.trello.com/1/${resource}?`;
+    url += fields ? `fields=${fields}&` : "";
+    url += `key=${trelloConfig.Key}&token=${trelloConfig.Token}`;
+
+    return url;
 };

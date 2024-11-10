@@ -1,12 +1,14 @@
-import { Location } from "./base-types";
+import { Avatar, Location, TrelloCard } from "./base-types";
 
-type PointOfIntrestType = "Customer" | "Employee" | "Aptitud";
+export type PointOfIntrestType = "Customer" | "Employee" | "Aptitud";
 
 export interface MapLocation {
     pointOfInterest: {
         name: string;
+        avatar?: Avatar;
         type: PointOfIntrestType;
         address: string;
     };
+    trello?: TrelloCard;
     location: Location;
 }
