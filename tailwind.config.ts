@@ -9,6 +9,20 @@ export default {
             colors: {
                 background: "hsl(var(--background))",
                 foreground: "hsl(var(--foreground))",
+
+                active: {
+                    background: "hsl(var(--active-contract-background))",
+                },
+                idle: {
+                    background: "hsl(var(--idle-background))",
+                },
+                needassignment: {
+                    background: "hsl(var(--need-assignment-background))",
+                },
+                parentalleave: {
+                    background: "hsl(var(--parental-leave-background))",
+                },
+
                 card: {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",

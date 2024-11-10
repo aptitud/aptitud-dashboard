@@ -36,11 +36,9 @@ export const getEmployeeCards = async (): Promise<EmployeeCard[]> => {
 export const getMembers = async (): Promise<Member[]> => {
     try {
         const url = getUrl(`organizations/${trelloConfig.OrganizationId}/members`, "fullName,avatarUrl");
-        console.log({ url });
         const response = await fetch(url, fetchOptions);
         if (!response.ok) throw new Error("Could not fetch members from Trello");
         const a = await response.json();
-        console.log(JSON.stringify(a, null, 2));
         return a;
     } catch (error) {
         console.error(error);
