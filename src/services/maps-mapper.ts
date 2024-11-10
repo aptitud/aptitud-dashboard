@@ -28,6 +28,10 @@ export const mapToMapLocation = async (employeeCard: EmployeeCard, members: Memb
             lat: geoLocation.geometry.location.lat,
             lng: geoLocation.geometry.location.lng,
         },
+        trello: {
+            id: employeeCard.id,
+            url: employeeCard.shortUrl,
+        },
     };
 };
 

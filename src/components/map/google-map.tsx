@@ -87,14 +87,13 @@ const getContent = (mapLocation: MapLocation) => {
 
     return `
         <div class="flex items-center gap-2">
-        ${avatar}
-        <div>
-            <h3 class="font-bold mb-1">${mapLocation.pointOfInterest.name}</h3>
-            <div class="mb-2">${mapLocation.pointOfInterest.address}</div>
-            ${trelloLink}
-        </div>
-    </div>
-`;
+            ${avatar}
+            <div>
+                <h3 class="font-bold mb-1">${mapLocation.pointOfInterest.name}</h3>
+                <div class="mb-2">${mapLocation.pointOfInterest.address}</div>
+                ${trelloLink}
+            </div>
+        </div>`;
 };
 
 const getAvatar = (mapLocation: MapLocation) => {
@@ -112,13 +111,15 @@ const getAvatar = (mapLocation: MapLocation) => {
 const getTrelloLink = (mapLocation: MapLocation) => {
     if (mapLocation.trello?.url) {
         return `
-            <a 
-                href="${mapLocation.trello.url}" 
-                target="_blank" 
-                class="text-blue-600 hover:text-blue-800 underline"
-            >
-                Visa i Trello
-            </a>`;
+            <div class="flex justify-end">
+                <a 
+                    href="${mapLocation.trello.url}" 
+                    target="_blank" 
+                    class="text-blue-600 hover:text-blue-800 underline"
+                >
+                    Visa i Trello
+                </a>
+            </div>`;
     }
     return "";
 };
