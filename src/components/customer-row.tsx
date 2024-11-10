@@ -57,10 +57,10 @@ type ContractInformationProps = {
 
 const ContractInformationComponent = ({ contractInformation, needAssignment, parentalLeave }: ContractInformationProps) => {
     let className = `p-2 rounded-sm col-span-${contractInformation.numberOfMonths} `;
-    className = contractInformation.activeContract ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-green-700") : cn(className, "bg-slate-700");
+    className = contractInformation.activeContract ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background") : cn(className, "bg-idle-background");
 
-    className = contractInformation.activeContract && needAssignment ? cn(className, "bg-red-700") : className;
-    className = contractInformation.activeContract && parentalLeave ? cn(className, "bg-yellow-700") : className;
+    className = contractInformation.activeContract && needAssignment ? cn(className, "bg-needassignment-background") : className;
+    className = contractInformation.activeContract && parentalLeave ? cn(className, "bg-parentalleave-background") : className;
 
     const title = contractInformation.activeContract
         ? `${contractInformation.employee.name} - ${contractInformation.startDate?.toLocaleDateString()} - ${contractInformation.endDate?.toLocaleDateString()}`
