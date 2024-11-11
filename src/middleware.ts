@@ -5,7 +5,8 @@ import { NextResponse } from "next/server";
 const unprotectedRoutes = ["/"];
 
 export default auth((req) => {
-    const isLoggedIn = !!req.auth;
+    const isLoggedIn = !!req.auth?.user?.email?.endsWith("@aptitud.se");
+
     const isProtectedRoute = !unprotectedRoutes.some((route) => req.nextUrl.pathname === route);
 
     if (isProtectedRoute && !isLoggedIn) {
