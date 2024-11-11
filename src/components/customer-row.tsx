@@ -42,7 +42,12 @@ export function CustomerRow({ customer, currentDate }: Props) {
             {contracts.map((contract) => {
                 const contractInformations = getContractInformations(contract, months);
                 return contractInformations.map((contractInformation) => (
-                    <ContractInformationComponent contractInformation={contractInformation} needAssignment={customer.type === "NeedAssignment"} parentalLeave={customer.type === "ParentalLeave"} />
+                    <ContractInformationComponent
+                        key={`${contractInformation.employee.name}-${contractInformation.startDate}`}
+                        contractInformation={contractInformation}
+                        needAssignment={customer.type === "NeedAssignment"}
+                        parentalLeave={customer.type === "ParentalLeave"}
+                    />
                 ));
             })}
         </>

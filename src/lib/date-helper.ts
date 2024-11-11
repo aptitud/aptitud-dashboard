@@ -4,7 +4,7 @@ export type Month = {
 };
 
 export const getMonths = (date: Date, numberOfMonth: number): Month[] => {
-    let months = new Array<Month>(numberOfMonth);
+    const months = new Array<Month>(numberOfMonth);
 
     for (let index = 0; index < numberOfMonth; index++) {
         months[index] = {

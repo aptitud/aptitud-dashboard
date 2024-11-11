@@ -22,7 +22,7 @@ export function GoogleMap({ officeMapLocation, mapLocations, apiKey, mapId }: Go
         });
 
         // Load both marker and core libraries
-        Promise.all([loader.importLibrary("marker"), loader.importLibrary("core")]).then(([markerLib, coreLib]) => {
+        Promise.all([loader.importLibrary("marker"), loader.importLibrary("core")]).then(() => {
             if (!mapRef.current) return;
 
             const map = new google.maps.Map(mapRef.current, {
