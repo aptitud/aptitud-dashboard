@@ -15,19 +15,19 @@ export default async function CustomersPage() {
             <div></div>
             <MonthHeader currentDate={currentDate} />
 
+            {parentalLeave.map((customer) => (
+                <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
+            ))}
+
+            <div className="col-span-13 h-4"></div>
+
             {needAssignment.map((customer) => (
                 <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
             ))}
 
-            <div className="col-span-13 h-6"></div>
+            <div className="col-span-13 h-4"></div>
 
             {customers.map((customer) => (
-                <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
-            ))}
-
-            <div className="col-span-13 h-2"></div>
-
-            {parentalLeave.map((customer) => (
                 <CustomerRow key={customer.name} currentDate={currentDate} customer={customer} />
             ))}
         </div>

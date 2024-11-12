@@ -11,16 +11,16 @@ export function UserMenu() {
 
     if (status === "loading") {
         return (
-            <Button variant="ghost" size="icon" disabled>
-                <User2 className="h-5 w-5" />
+            <Button className="[&_svg]:size-8" variant="ghost" size="icon" disabled>
+                <User2 />
             </Button>
         );
     }
 
     if (!session) {
         return (
-            <Button variant="ghost" size="icon" onClick={() => signIn("google")} title="Sign in">
-                <User2 className="h-5 w-5" />
+            <Button className="[&_svg]:size-8" variant="ghost" size="icon" onClick={() => signIn("google")} title="Sign in">
+                <User2 className="" />
             </Button>
         );
     }
@@ -28,8 +28,8 @@ export function UserMenu() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full" title={session.user?.name ?? "User menu"}>
-                    <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="[&_svg]:size-8 relative h-8 w-8 rounded-full" title={session.user?.name ?? "User menu"}>
+                    <Avatar>
                         <AvatarImage src={session.user?.image ?? undefined} alt={session.user?.name ?? "User avatar"} />
                         <AvatarFallback>
                             {session.user?.name

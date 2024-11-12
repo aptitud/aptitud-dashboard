@@ -6,7 +6,7 @@ export function MonthHeader({ currentDate }: Props) {
     return (
         <>
             {months.map((month) => (
-                <div key={month} className="p-2 rounded-t-md border-x-2 border-t-2 overflow-hidden">
+                <div key={month} className="p-1 rounded-t-md border-x-2 border-t-2 overflow-hidden">
                     {month}
                 </div>
             ))}

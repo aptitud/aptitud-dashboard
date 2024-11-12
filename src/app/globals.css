@@ -9,7 +9,7 @@
     --active-contract-background: 150 40% 60%;
     --need-assignment-background: 0 40% 60%;
     --parental-leave-background: 50 40% 60%;
-    --idle-background: 0 0% 60%;
+    --idle-background: 0 0% 90%;
 
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -43,7 +43,7 @@
       --active-contract-background: 150 40% 30%;
       --need-assignment-background: 0 40% 30%;
       --parental-leave-background: 50 40% 30%;
-      --idle-background: 0 0% 30%;
+      --idle-background: 0 0% 10%;
     
       --card: 240 10% 3.9%;
       --card-foreground: 0 0% 98%;
@@ -77,6 +77,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-size: 12px;
+    font-size: 14px;
   }
 }

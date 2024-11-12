@@ -30,7 +30,7 @@ export function EmployeeRow({ employee, currentDate }: Props) {
 
     return (
         <>
-            <div className={`p-1 text-ellipsis text-nowrap`}>
+            <div className={`px-2 text-ellipsis text-nowrap`}>
                 {employee.trello?.url ? (
                     <Link href={employee.trello?.url} target="_trello">
                         {employee.name}
@@ -51,7 +51,7 @@ type ContractInformationProps = {
 };
 
 const ContractInformationComponent = ({ contractInformation }: ContractInformationProps) => {
-    let className = `p-1 rounded-sm col-span-${contractInformation.numberOfMonths} `;
+    let className = `px-2 rounded-sm col-span-${contractInformation.numberOfMonths} `;
     className = !!contractInformation.customer ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background") : cn(className, "bg-idle-background");
 
     className = contractInformation.customer?.type === "NeedAssignment" ? cn(className, "bg-needassignment-background") : className;

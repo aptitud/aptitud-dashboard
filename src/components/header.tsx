@@ -43,7 +43,7 @@ export async function Header({ className }: HeaderProps) {
                 <div className="hidden flex-1 justify-center md:flex">
                     <h1 className="text-lg font-semibold">Aptitud Dashboard</h1>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center h-8 w-8">
                     <UserMenu />
                 </div>
             </div>

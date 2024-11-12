@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Header } from "@/components/header";
-import { ThemeProvider } from "@/context/ThemeContext";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
@@ -31,13 +29,9 @@ export default function RootLayout({
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
                 <SessionProvider>
-                    <ThemeProvider>
-                        <Header />
-                        <main className="flex-1 m-4 relative">{children}</main>
-                        <div className="more-menu">
-                            <ThemeSwitcher />
-                        </div>
-                    </ThemeProvider>
+                    <Header />
+                    <main className="flex-1 m-4 relative">{children}</main>
+                    <div className="more-menu"></div>
                 </SessionProvider>
             </body>
         </html>
