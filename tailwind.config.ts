@@ -1,4 +1,3 @@
-import { Span } from "next/dist/trace";
 import type { Config } from "tailwindcss";
 
 export default {

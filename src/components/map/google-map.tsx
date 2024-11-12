@@ -114,7 +114,7 @@ const getTrelloLink = (mapLocation: MapLocation) => {
             <div class="flex justify-end">
                 <a 
                     href="${mapLocation.trello.url}" 
-                    target="_blank" 
+                    target="_trello" 
                     class="text-blue-600 hover:text-blue-800 underline"
                 >
                     Visa i Trello

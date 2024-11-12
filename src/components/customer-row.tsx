@@ -30,9 +30,9 @@ export function CustomerRow({ customer, currentDate }: Props) {
 
     return (
         <>
-            <div className={`p-2 row-span-${contracts.length} text-ellipsis text-nowrap`}>
+            <div className={`p-1 row-span-${contracts.length} text-ellipsis text-nowrap`}>
                 {customer.trello?.url ? (
-                    <Link href={customer.trello?.url} target="_blank">
+                    <Link href={customer.trello?.url} target="_trello">
                         {customer.name}
                     </Link>
                 ) : (
@@ -61,7 +61,7 @@ type ContractInformationProps = {
 };
 
 const ContractInformationComponent = ({ contractInformation, needAssignment, parentalLeave }: ContractInformationProps) => {
-    let className = `p-2 rounded-sm col-span-${contractInformation.numberOfMonths} `;
+    let className = `p-1 rounded-sm col-span-${contractInformation.numberOfMonths} `;
     className = contractInformation.activeContract ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background") : cn(className, "bg-idle-background");
 
     className = contractInformation.activeContract && needAssignment ? cn(className, "bg-needassignment-background") : className;
@@ -76,7 +76,7 @@ const ContractInformationComponent = ({ contractInformation, needAssignment, par
         <div key={key} className={className} title={title}>
             {contractInformation.activeContract ? (
                 contractInformation.employee.trelloUrl ? (
-                    <Link href={contractInformation.employee.trelloUrl} target="_blank">
+                    <Link href={contractInformation.employee.trelloUrl} target="_trello">
                         {contractInformation.employee.name}
                     </Link>
                 ) : (
