@@ -16,11 +16,11 @@ export const getGeoLocation = async (address: string): Promise<GeoLocation | und
         if (!response.ok) throw new Error(`Could not fetch geocode for address ${address} from Google`);
 
         const result = await response.json();
-        if (result.status !== "OK") throw new Error(`Could not fetch geocode for address ${address} from Google`);
+        if (result.status !== "OK") throw new Error(`Could not fetch geocode for address ${address} from Google, Status: ${result.status}`);
         if (result.results.length === 0) return undefined;
         return result.results[0];
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to fetch customer cards from Trello");
+        throw new Error("Failed to fetch geocode from Google");
     }
 };
