@@ -17,4 +17,4 @@ To get started an run localy do the following:
 
 To deploy to Heroku just push the code to the `main` branch
 
-If you add a configuration key, dont forget to add the key name to the `.env.example` file. And upload the new content to secret manager with [AptitudToolbox](https://github.com/aptitud/aptitud-toolbox) command `Set-Secret -File <path_to_.env.local>` (comming soon)
+If you add a configuration key, dont forget to add the key name to the `.env.example` file. And upload the new content to secret manager with [AptitudToolbox](https://github.com/aptitud/aptitud-toolbox) command `Set-Secret -SecretName aptitud-dashboard -File <path_to_.env.local>`

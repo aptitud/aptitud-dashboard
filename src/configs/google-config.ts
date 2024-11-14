@@ -3,6 +3,7 @@ import { MapLocation } from "@/types/map-types";
 export const googleConfig = {
     ApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
     MapId: process.env.GOOGLE_MAPS_MAP_ID as string,
+    FinanceSheetId: process.env.GOOGLE_SHEET_FINANCE_ID as string,
 
     Aptitud: {
         pointOfInterest: {

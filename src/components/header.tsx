@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Users2, Building2, Map } from "lucide-react";
+import { Users2, Building2, Map, BadgeEuro } from "lucide-react";
 import Link from "next/link";
 import { UserMenu } from "@/components/auth/user-menu";
 import { MoreMenu } from "./more-menu";
@@ -35,6 +35,7 @@ export async function Header({ className }: HeaderProps) {
                         <NavItem icon={<Building2 className="h-5 w-5" />} href="/customers" label="Customers" />
                         <NavItem icon={<Users2 className="h-5 w-5" />} href="/employees" label="Employees" />
                         <NavItem icon={<Map className="h-5 w-5" />} href="/map" label="Map" />
+                        <NavItem icon={<BadgeEuro className="h-5 w-5" />} href="/finance" label="Finance" />
                         <MoreMenu />
                     </nav>
                 ) : (
