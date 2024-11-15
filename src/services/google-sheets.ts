@@ -15,11 +15,9 @@ export const getFinanceSheetData = async (spreadsheetId: string): Promise<Financ
     const session = await auth();
 
     const accessToken = session?.accessToken ?? "";
-    console.log({ accessToken });
     const range = "Sammanställning!A:F";
     try {
         const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=SERIAL_NUMBER`;
-        console.log({ url });
         const response = await fetch(url, fetchOptions(accessToken));
         if (!response.ok) throw new Error(`Could not fetch data from Google Sheets for range ${range}`);
 
