@@ -1,11 +1,10 @@
 "use client";
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { FinanceRowData } from "@/types/finance-types";
 import { useEffect, useState } from "react";
-import { chartConfig } from "./finance-chart-container";
+import { chartConfig } from "./finance-chart-config";
 
 type Props = {
     chartData: FinanceRowData[];
