@@ -58,7 +58,15 @@ const ContractInformationComponent = ({ contractInformation }: ContractInformati
     className = contractInformation.customer?.type === "ParentalLeave" ? cn(className, "bg-parentalleave-background") : className;
 
     const title = contractInformation.customer
-        ? `${contractInformation.customer.name} - ${contractInformation.startDate?.toLocaleDateString()} - ${contractInformation.endDate?.toLocaleDateString()}`
+        ? `${contractInformation.customer.name} - ${contractInformation.startDate?.toLocaleDateString("sv-SE", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          })} - ${contractInformation.endDate?.toLocaleDateString("sv-SE", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          })}`
         : undefined;
 
     return (

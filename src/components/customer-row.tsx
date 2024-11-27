@@ -1,5 +1,6 @@
 import { getMonths, Month } from "@/lib/date-helper";
 import { cn } from "@/lib/utils";
+import { Comment } from "@/types/base-types";
 import { Contract, Customer } from "@/types/customer-types";
 import Link from "next/link";
 
@@ -8,6 +9,7 @@ type ContractInformation = {
     employee: {
         name: string;
         trelloUrl?: string;
+        comments: Comment[];
     };
     numberOfMonths: number;
     startDate?: Date;
@@ -67,9 +69,19 @@ const ContractInformationComponent = ({ contractInformation, needAssignment, par
     className = contractInformation.activeContract && needAssignment ? cn(className, "bg-needassignment-background") : className;
     className = contractInformation.activeContract && parentalLeave ? cn(className, "bg-parentalleave-background") : className;
 
-    const title = contractInformation.activeContract
-        ? `${contractInformation.employee.name} - ${contractInformation.startDate?.toLocaleDateString()} - ${contractInformation.endDate?.toLocaleDateString()}`
-        : undefined;
+    let title = contractInformation.activeContract
+        ? `${contractInformation.employee.name} - ${contractInformation.startDate?.toLocaleDateString("sv-SE", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          })} - ${contractInformation.endDate?.toLocaleDateString("sv-SE", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          })}`
+        : "";
+
+    title += contractInformation.activeContract && contractInformation.employee.comments.length > 0 ? `\n${contractInformation.employee.comments.map((c) => `\n- ${c.text}`)}` : "";
 
     const key = contractInformation.activeContract ? title : contractInformation.employee.name;
     return (
@@ -77,7 +89,7 @@ const ContractInformationComponent = ({ contractInformation, needAssignment, par
             {contractInformation.activeContract ? (
                 contractInformation.employee.trelloUrl ? (
                     <Link href={contractInformation.employee.trelloUrl} target="_trello">
-                        {contractInformation.employee.name}
+                        {`${contractInformation.employee.comments.length > 0 ? "* " : ""}${contractInformation.employee.name}`}
                     </Link>
                 ) : (
                     <span></span>
@@ -116,6 +128,7 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
                 employee: {
                     name: contract.employee.name,
                     trelloUrl: contract.employee.trello?.url,
+                    comments: contract.employee.comments,
                 },
                 numberOfMonths,
                 startDate: activeContract ? contract.startDate : undefined,
@@ -131,6 +144,7 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
         employee: {
             name: contract.employee.name,
             trelloUrl: contract.employee.trello?.url,
+            comments: contract.employee.comments,
         },
         numberOfMonths,
         startDate: activeContract ? contract.startDate : undefined,

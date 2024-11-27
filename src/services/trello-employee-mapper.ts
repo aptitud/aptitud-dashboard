@@ -60,6 +60,7 @@ const getCustomerContracts = (employeeCard: EmployeeCard, customerCard: Customer
             return {
                 employee: {
                     name: employeeName,
+                    comments: [],
                 },
                 startDate: new Date(contractParts[1].trim()),
                 endDate: new Date(contractParts[2].trim()),

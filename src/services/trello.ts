@@ -73,7 +73,7 @@ async function executeBatchRequests(urls: string[]): Promise<BatchResponse[]> {
 
 export async function getMemberComments(cardIds: string[]): Promise<Record<string, CommentData[]>> {
     const urls = cardIds.map((id) => `/cards/${id}/actions?filter=commentCard`);
-    const cutOffDate = getCommentCutoffDate(3);
+    const cutOffDate = getCommentCutoffDate(1);
 
     const batchResults = await executeBatchRequests(urls);
     const commentsByCard: Record<string, CommentData[]> = {};
