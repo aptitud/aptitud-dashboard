@@ -1,9 +1,9 @@
 import { CustomerType } from "@/types/base-types";
 import { Contract, Customer } from "@/types/customer-types";
-import { CustomerCard, EmployeeCard } from "./trello-types";
+import { CustomerCard, EmployeeCard, CommentData } from "./trello-types";
 import { trelloConfig } from "@/configs/trello-config";
 
-export const mapToCustomer = (customerCard: CustomerCard, employeeCards: EmployeeCard[]): Customer => {
+export const mapToCustomer = (customerCard: CustomerCard, employeeCards: EmployeeCard[], comments: Record<string, CommentData[]>): Customer => {
     return {
         name: customerCard.name,
         type: getCustomerType(customerCard),
@@ -11,7 +11,7 @@ export const mapToCustomer = (customerCard: CustomerCard, employeeCards: Employe
             id: customerCard.id,
             url: customerCard.shortUrl,
         },
-        contracts: getCustomerContracts(customerCard.desc, employeeCards),
+        contracts: getCustomerContracts(customerCard.desc, employeeCards, comments),
     };
 };
 
@@ -25,7 +25,7 @@ export const getCustomerType = (customerCard: CustomerCard): CustomerType => {
             return "Customer";
     }
 };
-const getCustomerContracts = (description: string, employeeCards: EmployeeCard[]): Contract[] => {
+const getCustomerContracts = (description: string, employeeCards: EmployeeCard[], comments: Record<string, CommentData[]>): Contract[] => {
     const contractSeparator = "\n";
     const contractPartSeparator = " - ";
 
@@ -42,6 +42,7 @@ const getCustomerContracts = (description: string, employeeCards: EmployeeCard[]
             return {
                 employee: {
                     name: contractParts[0].trim(),
+                    comments: employeeCard ? comments[employeeCard.id].map((c) => ({ id: c.id, text: getFirstRow(c.data.text), date: c.date })) : [],
                     trello: employeeCard
                         ? {
                               id: employeeCard.id,
@@ -54,4 +55,8 @@ const getCustomerContracts = (description: string, employeeCards: EmployeeCard[]
             };
         })
         .filter((x) => x !== null);
+};
+
+const getFirstRow = (text: string) => {
+    return text.split("\n")[0];
 };

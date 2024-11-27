@@ -19,3 +19,15 @@ export type Member = {
     fullName: string;
     avatarUrl: string;
 };
+
+export type CommentData = {
+    id: string;
+    date: Date;
+    data: {
+        text: string;
+    };
+    memberCreator: {
+        id: string;
+        fullName: string;
+    };
+};

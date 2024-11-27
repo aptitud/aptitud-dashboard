@@ -5,6 +5,12 @@ export interface TrelloCard {
     url: string;
 }
 
+export interface Comment {
+    id: string;
+    text: string;
+    date: Date;
+}
+
 export interface Location {
     lat: number;
     lng: number;

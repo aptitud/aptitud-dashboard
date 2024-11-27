@@ -1,10 +1,11 @@
-import { Location, TrelloCard, CustomerType } from "./base-types";
+import { Location, TrelloCard, CustomerType, Comment } from "./base-types";
 
 export interface Contract {
     employee: {
         name: string;
         trello?: TrelloCard;
         location?: Location;
+        comments: Comment[];
     };
     startDate: Date;
     endDate: Date;
