@@ -26,3 +26,10 @@ const getLastDateInMonth = (date: Date, monthOffset: number) => {
     const month = date.getUTCMonth();
     return new Date(Date.UTC(year, month + 1 + monthOffset, 0));
 };
+
+export const formatDate = (date?: Date) => {
+    if (!date) {
+        return "";
+    }
+    return date.toLocaleDateString('sv-SE', { year:"numeric", month:"2-digit"});
+}
