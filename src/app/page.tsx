@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { auth } from "@/auth";
-import { redirect, RedirectType } from "next/navigation";
 import logo from "@/app/aptitud-logo.png";
 import { SignInButton } from "@/components/auth/signin-button";
+import { Suspense } from "react";
+import { auth } from "@/auth";
+import { redirect, RedirectType } from "next/navigation";
 
 export default async function Home() {
+
     const session = await auth();
 
     if (!!session?.user) {
@@ -20,7 +22,9 @@ export default async function Home() {
             <h1 className="text-3xl md:text-4xl font-bold text-center">Aptitud Dashboard</h1>
 
             <p className="text-lg text-center max-w-2xl text-muted-foreground">Du måste logga in med ett aptitudkonto för att komma åt informationen</p>
-            <SignInButton />
+            <Suspense>
+                <SignInButton />
+            </Suspense>
         </div>
     );
 }

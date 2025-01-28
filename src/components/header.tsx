@@ -3,7 +3,6 @@ import { Users2, Building2, Map, BadgeEuro } from "lucide-react";
 import Link from "next/link";
 import { UserMenu } from "@/components/auth/user-menu";
 import { MoreMenu } from "./more-menu";
-import { auth } from "@/auth";
 
 interface HeaderProps {
     className?: string;
@@ -24,23 +23,16 @@ function NavItem({ icon, href, label }: NavItemProps) {
 }
 
 export async function Header({ className }: HeaderProps) {
-    const session = await auth();
-    const isLoggedIn = !!session?.user;
-
     return (
         <header className={cn("sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-2", className)}>
             <div className="flex h-14 items-center justify-between">
-                {isLoggedIn ? (
-                    <nav className="flex items-center gap-2">
-                        <NavItem icon={<Building2 className="h-5 w-5" />} href="/customers" label="Customers" />
-                        <NavItem icon={<Users2 className="h-5 w-5" />} href="/employees" label="Employees" />
-                        <NavItem icon={<Map className="h-5 w-5" />} href="/map" label="Map" />
-                        <NavItem icon={<BadgeEuro className="h-5 w-5" />} href="/finance" label="Finance" />
-                        <MoreMenu />
-                    </nav>
-                ) : (
-                    <div />
-                )}
+                <nav className="flex items-center gap-2">
+                    <NavItem icon={<Building2 className="h-5 w-5" />} href="/customers" label="Customers" />
+                    <NavItem icon={<Users2 className="h-5 w-5" />} href="/employees" label="Employees" />
+                    <NavItem icon={<Map className="h-5 w-5" />} href="/map" label="Map" />
+                    <NavItem icon={<BadgeEuro className="h-5 w-5" />} href="/finance" label="Finance" />
+                    <MoreMenu />
+                </nav>
                 <div className="hidden flex-1 justify-center md:flex">
                     <h1 className="text-lg font-semibold">Aptitud Dashboard</h1>
                 </div>

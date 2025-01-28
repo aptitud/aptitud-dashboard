@@ -1,10 +1,11 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { User2 } from "lucide-react";
+
 
 export function UserMenu() {
     const { data: session, status } = useSession();
@@ -17,22 +18,18 @@ export function UserMenu() {
         );
     }
 
-    if (!session) {
-        return (
-            <Button className="[&_svg]:size-8" variant="ghost" size="icon" onClick={() => signIn("google")} title="Sign in">
-                <User2 className="" />
-            </Button>
-        );
+    if (!session || !session.user) {
+        return null;
     }
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="[&_svg]:size-8 relative h-8 w-8 rounded-full" title={session.user?.name ?? "User menu"}>
+                <Button variant="ghost" className="[&_svg]:size-8 relative h-8 w-8 rounded-full" title={session.user.name ?? "User menu"}>
                     <Avatar>
-                        <AvatarImage src={session.user?.image ?? undefined} alt={session.user?.name ?? "User avatar"} />
+                        <AvatarImage src={session.user.image ?? undefined} alt={session.user.name ?? "User avatar"} />
                         <AvatarFallback>
-                            {session.user?.name
+                            {session.user.name
                                 ?.split(" ")
                                 .map((n) => n[0])
                                 .join("")

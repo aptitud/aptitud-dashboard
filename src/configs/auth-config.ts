@@ -16,7 +16,18 @@ export const authConfig: NextAuthConfig = {
             },
         }),
     ],
+    pages: {
+        signIn: "/",
+    },
     callbacks: {
+        async authorized({ auth }) {
+            const isAptitudUser = auth?.user?.email?.endsWith("@aptitud.se")
+            if (!isAptitudUser) {
+                return false;
+            }
+            
+            return !!auth
+        },
         async session({ session, token }) {
             session.accessToken = token.accessToken as string;
             return session;
