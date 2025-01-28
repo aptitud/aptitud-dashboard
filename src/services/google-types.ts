@@ -1,8 +1,8 @@
 export type GeoLocation = {
-    geometry: {
-        location: {
-            lat: number;
-            lng: number;
-        };
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
     };
+  };
 };
