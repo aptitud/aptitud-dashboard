@@ -18,11 +18,7 @@ interface NavItemProps {
 function NavItem({ icon, href, label, onClick }: NavItemProps) {
   if (onClick) {
     return (
-      <button
-        onClick={onClick}
-        className="flex items-center gap-2 rounded-md p-2 hover:bg-accent hover:text-accent-foreground"
-        title={label}
-      >
+      <button onClick={onClick} className="rounded-md p-2 hover:bg-accent hover:text-accent-foreground" title={label}>
         {icon}
       </button>
     );
@@ -30,19 +26,13 @@ function NavItem({ icon, href, label, onClick }: NavItemProps) {
 
   if (href) {
     return (
-      <Link
-        href={href}
-        className="flex items-center gap-2 rounded-md p-2 hover:bg-accent hover:text-accent-foreground"
-        title={label}
-      >
+      <Link href={href} className="rounded-md p-2 hover:bg-accent hover:text-accent-foreground" title={label}>
         {icon}
       </Link>
     );
   }
 
-  return (
-    <div className="flex items-center gap-2 rounded-md p-2 hover:bg-accent hover:text-accent-foreground">{icon}</div>
-  );
+  return <div className="rounded-md p-2 hover:bg-accent hover:text-accent-foreground">{icon}</div>;
 }
 
 export async function Header({ className }: HeaderProps) {
@@ -54,17 +44,17 @@ export async function Header({ className }: HeaderProps) {
       )}
     >
       <div className="flex h-14 items-center justify-between">
-        <nav className="flex items-center gap-2">
+        <nav className="flex-1 flex items-center gap-2">
           <NavItem icon={<Building2 className="h-5 w-5" />} href="/customers" label="Kunder" />
           <NavItem icon={<Users2 className="h-5 w-5" />} href="/employees" label="Anställda" />
           <NavItem icon={<Map className="h-5 w-5" />} href="/map" label="Karta" />
           <NavItem icon={<BadgeEuro className="h-5 w-5" />} href="/finance" label="Finanser" />
           <NavItem icon={<RefreshCw className="h-5 w-5" />} label="Rensa cachen" onClick={refreshAll} />
         </nav>
-        <div className="hidden flex-1 justify-center md:flex">
+        <div className="flex-1 text-center invisible md:visible">
           <h1 className="text-lg font-semibold">Aptitud Dashboard</h1>
         </div>
-        <div className="flex items-center h-8 w-8">
+        <div className="flex-1 justify-end flex items-center h-8 w-8">
           <UserMenu />
         </div>
       </div>
