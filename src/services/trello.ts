@@ -5,7 +5,7 @@ const fetchOptions: RequestInit = {
   headers: {
     "Content-Type": "application/json",
   },
-  next: { revalidate: 3600, tags: ["trello"] },
+  next: { revalidate: 3600, tags: ["trello", "external-data"] },
 };
 
 export const getCustomerCards = async (): Promise<CustomerCard[]> => {

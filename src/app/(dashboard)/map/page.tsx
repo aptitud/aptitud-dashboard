@@ -14,3 +14,6 @@ export default async function MapsPage() {
     />
   );
 }
+
+// Force the page to be dynamic to avoid cache problems
+export const dynamic = "force-dynamic";

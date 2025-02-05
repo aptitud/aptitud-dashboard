@@ -3,9 +3,7 @@
 import { revalidateTag } from "next/cache";
 
 export async function refreshAll() {
-  refreshTrello();
-  refreshGoogleMaps();
-  refreshGoogleSheets();
+  revalidateTag("external-data");
 }
 
 export async function refreshTrello() {

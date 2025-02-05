@@ -5,7 +5,7 @@ const fetchOptions: RequestInit = {
   headers: {
     "Content-Type": "application/json",
   },
-  next: { revalidate: 3600, tags: ["google-maps"] },
+  next: { revalidate: 3600, tags: ["google-maps", "external-data"] },
 };
 
 export const getGeoLocation = async (address: string): Promise<GeoLocation | undefined> => {

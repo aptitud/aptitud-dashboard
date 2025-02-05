@@ -17,3 +17,6 @@ export default async function FinancePage() {
     </Card>
   );
 }
+
+// Force the page to be dynamic to avoid cache problems
+export const dynamic = "force-dynamic";

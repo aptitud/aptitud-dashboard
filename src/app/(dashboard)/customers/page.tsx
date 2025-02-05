@@ -33,3 +33,6 @@ export default async function CustomersPage() {
     </div>
   );
 }
+
+// Force the page to be dynamic to avoid cache problems
+export const dynamic = "force-dynamic";

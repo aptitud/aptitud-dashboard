@@ -7,7 +7,7 @@ const fetchOptions = (accessToken: string): RequestInit => {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    next: { revalidate: 3600, tags: ["google-sheets"] },
+    next: { revalidate: 3600, tags: ["google-sheets", "external-data"] },
   };
 };
 
