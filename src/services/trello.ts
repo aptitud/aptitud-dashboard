@@ -49,7 +49,7 @@ interface BatchResponse {
   "200": CommentData[];
 }
 
-async function executeBatchRequests(urls: string[]): Promise<BatchResponse[]> {
+async function executeBatchRequests(urls: string[], cache = true): Promise<BatchResponse[]> {
   // Trello has a limit of 10 URLs per batch request
   const batchSize = 10;
   const batches = [];
@@ -60,6 +60,7 @@ async function executeBatchRequests(urls: string[]): Promise<BatchResponse[]> {
 
     const response = await fetch(
       `https://api.trello.com/1/batch?urls=${urlsParam}&key=${trelloConfig.Key}&token=${trelloConfig.Token}`,
+      cache ? fetchOptions : undefined,
     );
 
     if (!response.ok) {
@@ -73,17 +74,28 @@ async function executeBatchRequests(urls: string[]): Promise<BatchResponse[]> {
   return batches;
 }
 
-export async function getMemberComments(cardIds: string[]): Promise<Record<string, CommentData[]>> {
-  const urls = cardIds.map((id) => `/cards/${id}/actions?filter=commentCard`);
-  const cutOffDate = getCommentCutoffDate(1);
+export async function getMemberComments(
+  cardIds: string[],
+  since?: Date,
+  limit = 5,
+  cache = true,
+): Promise<Record<string, CommentData[]>> {
+  const params = {
+    filter: "commentCard",
+    since: since ? since.toISOString().split("T")[0] : "",
+    limit: limit.toString(),
+    fields: "id,data,date",
+    memberCreator_fields: "id,fullName",
+  };
+  const urls = cardIds.map((id) => `/cards/${id}/actions?${new URLSearchParams(params)}`);
 
-  const batchResults = await executeBatchRequests(urls);
+  const batchResults = await executeBatchRequests(urls, cache);
   const commentsByCard: Record<string, CommentData[]> = {};
 
   cardIds.forEach((cardId, index) => {
     const result = batchResults[index];
     if (result && result["200"]) {
-      commentsByCard[cardId] = result["200"].filter((p) => p.date && new Date(p.date) > cutOffDate);
+      commentsByCard[cardId] = result["200"];
     } else {
       commentsByCard[cardId] = [];
     }
@@ -99,11 +111,4 @@ const getUrl = (resource: string, options?: { fields?: string; filter?: string }
   url += `key=${trelloConfig.Key}&token=${trelloConfig.Token}`;
 
   return url;
-};
-
-const getCommentCutoffDate = (months: number) => {
-  const date = new Date();
-  date.setMonth(date.getMonth() - months);
-
-  return date;
 };

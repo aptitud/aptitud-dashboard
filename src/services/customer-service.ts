@@ -7,7 +7,15 @@ export const getCustomers = async (): Promise<Customer[]> => {
   const employeeCards = await getEmployeeCards();
 
   const employeeCardIds = employeeCards.map((card) => card.id);
-  const employeeComments = await getMemberComments(employeeCardIds);
+  const since = getCommentCutoffDate(1);
+  const employeeComments = await getMemberComments(employeeCardIds, since, 1);
 
   return customerCards.map((card) => mapToCustomer(card, employeeCards, employeeComments));
+};
+
+const getCommentCutoffDate = (months: number) => {
+  const date = new Date();
+  date.setMonth(date.getMonth() - months);
+
+  return date;
 };
