@@ -8,7 +8,7 @@ export const getCustomers = async (): Promise<Customer[]> => {
 
   const employeeCardIds = employeeCards.map((card) => card.id);
   const since = getCommentCutoffDate(1);
-  const employeeComments = await getMemberComments(employeeCardIds, since, 1);
+  const employeeComments = await getMemberComments(employeeCardIds, since, 10);
 
   return customerCards.map((card) => mapToCustomer(card, employeeCards, employeeComments));
 };
