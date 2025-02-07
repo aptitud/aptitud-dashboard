@@ -108,6 +108,8 @@ const getContractInformations = (contracts: Contract[], months: Month[]): Contra
       monthOffest += unassignedContractInformation.numberOfMonths;
     }
 
+    if (monthOffest >= months.length) break;
+
     const contractInformation = getContractInformation(contract, months, monthOffest);
     result.push(contractInformation);
     monthOffest += contractInformation.numberOfMonths;
