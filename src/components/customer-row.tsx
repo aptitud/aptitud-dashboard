@@ -1,16 +1,19 @@
-import { getMonths, Month } from "@/lib/date-helper";
+import { formatDate, getMonths, Month } from "@/lib/date-helper";
 import { cn } from "@/lib/utils";
 import { Comment } from "@/types/base-types";
 import { Contract, Customer } from "@/types/customer-types";
-import Link from "next/link";
+import { LinkOrText } from "./ui/link";
+import { isContractInPeriod } from "@/lib/contract-helper";
+
+type Employee = {
+  name: string;
+  trelloUrl?: string;
+  comments: Comment[];
+};
 
 type ContractInformation = {
   activeContract: boolean;
-  employee: {
-    name: string;
-    trelloUrl?: string;
-    comments: Comment[];
-  };
+  employee: Employee;
   numberOfMonths: number;
   startDate?: Date;
   endDate?: Date;
@@ -35,13 +38,9 @@ export function CustomerRow({ customer, currentDate }: Props) {
   return (
     <>
       <div className={`px-2 row-span-${contracts.length} text-ellipsis text-nowrap`}>
-        {customer.trello?.url ? (
-          <Link href={customer.trello?.url} target="_trello">
-            {customer.name}
-          </Link>
-        ) : (
-          <span>{customer.name}</span>
-        )}
+        <LinkOrText href={customer.trello?.url} target="_trello">
+          {customer.name}
+        </LinkOrText>
       </div>
       {contracts.map((contract) => {
         const contractInformations = getContractInformations(contract, months);
@@ -69,47 +68,33 @@ const ContractInformationComponent = ({
   needAssignment,
   parentalLeave,
 }: ContractInformationProps) => {
-  let className = `px-2 rounded-sm col-span-${contractInformation.numberOfMonths} `;
-  className = contractInformation.activeContract
-    ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background")
-    : cn(className, "bg-idle-background");
+  const { activeContract, startDate, endDate, employee, numberOfMonths } = contractInformation;
+  let className = `px-2 rounded-sm col-span-${numberOfMonths} `;
 
-  className =
-    contractInformation.activeContract && needAssignment ? cn(className, "bg-needassignment-background") : className;
-  className =
-    contractInformation.activeContract && parentalLeave ? cn(className, "bg-parentalleave-background") : className;
-
-  let title = contractInformation.activeContract
-    ? `${contractInformation.employee.name} - ${contractInformation.startDate?.toLocaleDateString("sv-SE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })} - ${contractInformation.endDate?.toLocaleDateString("sv-SE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })}`
-    : "";
-
-  title +=
-    contractInformation.activeContract && contractInformation.employee.comments.length > 0
-      ? `\n${contractInformation.employee.comments.map((c) => `\n- ${c.text}`)}`
-      : "";
-
-  const key = contractInformation.activeContract ? title : contractInformation.employee.name;
-  return (
-    <div key={key} className={className} title={title}>
-      {contractInformation.activeContract ? (
-        contractInformation.employee.trelloUrl ? (
-          <Link href={contractInformation.employee.trelloUrl} target="_trello">
-            {`${contractInformation.employee.comments.length > 0 ? "* " : ""}${contractInformation.employee.name}`}
-          </Link>
-        ) : (
-          <span></span>
-        )
-      ) : (
+  if (!activeContract) {
+    return (
+      <div key={employee.name} className={cn(className, "bg-idle-background")} title="">
         <span></span>
-      )}
+      </div>
+    );
+  }
+
+  className = cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background");
+  className = needAssignment ? cn(className, "bg-needassignment-background") : className;
+  className = parentalLeave ? cn(className, "bg-parentalleave-background") : className;
+
+  let title = `${employee.name} - ${formatDate(startDate, "yyyy-mm-dd")} - ${formatDate(endDate, "yyyy-mm-dd")}`;
+  if (employee.comments.length > 0) {
+    title += `\n${employee.comments.map((c) => `\n- ${c.text}`)}`;
+  }
+
+  const linkText = `${employee.comments.length > 0 ? "* " : ""}${employee.name}`;
+
+  return (
+    <div key={title} className={className} title={title}>
+      <LinkOrText href={employee.trelloUrl} target="_trello">
+        {linkText}
+      </LinkOrText>
     </div>
   );
 };
@@ -163,11 +148,4 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
     startDate: activeContract ? contract.startDate : undefined,
     endDate: activeContract ? contract.endDate : undefined,
   };
-};
-
-const isContractInPeriod = (contract: Contract, periodStart: Date, periodEnd: Date) => {
-  return (
-    (contract.startDate <= periodStart && contract.endDate >= periodStart) ||
-    (contract.startDate >= periodStart && contract.startDate <= periodEnd)
-  );
 };

@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { Contract, Customer, Employee } from "@/types/employee-types";
 import { CustomerType } from "@/types/base-types";
-import { getMonths, Month } from "@/lib/date-helper";
+import { formatDate, getMonths, Month } from "@/lib/date-helper";
+import { LinkOrText } from "./ui/link";
+import { isContractInPeriod } from "@/lib/contract-helper";
 
 type ContractInformation = {
   customer?: {
@@ -33,13 +34,9 @@ export function EmployeeRow({ employee, currentDate }: Props) {
   return (
     <>
       <div className={`px-2 text-ellipsis text-nowrap`}>
-        {employee.trello?.url ? (
-          <Link href={employee.trello?.url} target="_trello">
-            {employee.name}
-          </Link>
-        ) : (
-          <span>{employee.name}</span>
-        )}
+        <LinkOrText href={employee.trello?.url} target="_trello">
+          {employee.name}
+        </LinkOrText>
       </div>
       {contractInformations.map((contractInformation, index) => (
         <ContractInformationComponent
@@ -56,41 +53,28 @@ type ContractInformationProps = {
 };
 
 const ContractInformationComponent = ({ contractInformation }: ContractInformationProps) => {
-  let className = `px-2 rounded-sm col-span-${contractInformation.numberOfMonths} `;
-  className = !!contractInformation.customer
-    ? cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background")
-    : cn(className, "bg-idle-background");
+  const { customer, numberOfMonths, startDate, endDate } = contractInformation;
+  let className = `px-2 rounded-sm col-span-${numberOfMonths} `;
 
-  className =
-    contractInformation.customer?.type === "NeedAssignment" ? cn(className, "bg-needassignment-background") : className;
-  className =
-    contractInformation.customer?.type === "ParentalLeave" ? cn(className, "bg-parentalleave-background") : className;
+  if (!customer) {
+    return (
+      <div className={cn(className, "bg-idle-background")}>
+        <span></span>
+      </div>
+    );
+  }
 
-  const title = contractInformation.customer
-    ? `${contractInformation.customer.name} - ${contractInformation.startDate?.toLocaleDateString("sv-SE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })} - ${contractInformation.endDate?.toLocaleDateString("sv-SE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })}`
-    : undefined;
+  className = cn(className, "text-nowrap overflow-hidden text-ellipsis bg-active-background");
+  className = customer?.type === "NeedAssignment" ? cn(className, "bg-needassignment-background") : className;
+  className = customer?.type === "ParentalLeave" ? cn(className, "bg-parentalleave-background") : className;
+
+  const title = `${customer.name} - ${formatDate(startDate, "yyyy-mm-dd")} - ${formatDate(endDate, "yyyy-mm-dd")}`;
 
   return (
     <div className={className} title={title}>
-      {contractInformation.customer ? (
-        contractInformation.customer.trelloUrl ? (
-          <Link href={contractInformation.customer.trelloUrl} target="_trello">
-            {contractInformation.customer.name}
-          </Link>
-        ) : (
-          <span>{contractInformation.customer.name}</span>
-        )
-      ) : (
-        <span></span>
-      )}
+      <LinkOrText href={customer.trelloUrl} target="_trello">
+        {customer.name}
+      </LinkOrText>
     </div>
   );
 };
@@ -190,11 +174,4 @@ const getContractInformation = (contract: Contract, months: Month[], monthOffest
     startDate: contract.startDate,
     endDate: contract.endDate,
   };
-};
-
-const isContractInPeriod = (contract: Contract, periodStart: Date, periodEnd: Date) => {
-  return (
-    (contract.startDate <= periodStart && contract.endDate >= periodStart) ||
-    (contract.startDate >= periodStart && contract.startDate <= periodEnd)
-  );
 };

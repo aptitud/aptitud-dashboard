@@ -27,9 +27,13 @@ const getLastDateInMonth = (date: Date, monthOffset: number) => {
   return new Date(Date.UTC(year, month + 1 + monthOffset, 0));
 };
 
-export const formatDate = (date?: Date) => {
+export const formatDate = (date?: Date, pattern?: string) => {
   if (!date) {
     return "";
   }
-  return date.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" });
+  if (pattern === "yyyy-mm-dd") {
+    return date.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit", day: "2-digit" });
+  } else {
+    return date.toLocaleDateString("sv-SE", { year: "numeric", month: "2-digit" });
+  }
 };
