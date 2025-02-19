@@ -1,5 +1,6 @@
 import { trelloConfig } from "@/configs/trello-config";
 import { CustomerCard, EmployeeCard, Member, CommentData } from "./trello-types";
+import { cleanupCommentText, isActiveCustomerComment } from "@/lib/comment-helper";
 
 const fetchOptions: RequestInit = {
   headers: {
@@ -95,7 +96,15 @@ export async function getMemberComments(
   cardIds.forEach((cardId, index) => {
     const result = batchResults[index];
     if (result && result["200"]) {
-      commentsByCard[cardId] = result["200"];
+      // Only include comments with a specific emoji but don't shoe the emoji on dashboard
+      commentsByCard[cardId] = result["200"]
+        .filter((c) => isActiveCustomerComment(c.data?.text))
+        .map((c) => ({
+          ...c,
+          data: {
+            text: cleanupCommentText(c.data.text),
+          },
+        }));
     } else {
       commentsByCard[cardId] = [];
     }
