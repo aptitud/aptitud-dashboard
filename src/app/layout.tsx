@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}>
-        <main className="flex-1 m-4 relative">{children}</main>
+        <main className="flex-1 mx-4 relative">{children}</main>
         <div className="more-menu"></div>
       </body>
     </html>

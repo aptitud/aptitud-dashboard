@@ -11,7 +11,7 @@ export default async function CustomersPage() {
   const customers = allcustomers.filter((p) => p.type === "Customer");
 
   return (
-    <div className="grid grid-cols-customers gap-1">
+    <div className="grid grid-cols-customers gap-1 w-[200%] sm:w-full">
       <div></div>
       <MonthHeader currentDate={currentDate} />
 

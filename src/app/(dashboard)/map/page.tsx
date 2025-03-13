@@ -6,12 +6,14 @@ export default async function MapsPage() {
   const mapLocations = await getMapLocations();
 
   return (
-    <GoogleMap
-      officeMapLocation={googleConfig.Aptitud}
-      mapLocations={mapLocations}
-      apiKey={googleConfig.ApiKey}
-      mapId={googleConfig.MapId}
-    />
+    <div className="absolute w-full h-[95%]">
+      <GoogleMap
+        officeMapLocation={googleConfig.Aptitud}
+        mapLocations={mapLocations}
+        apiKey={googleConfig.ApiKey}
+        mapId={googleConfig.MapId}
+      />
+    </div>
   );
 }
 
