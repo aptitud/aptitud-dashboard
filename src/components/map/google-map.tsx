@@ -141,7 +141,7 @@ const getContent = (mapLocation: MapLocation) => {
   return `
         <div class="flex items-center gap-2">
             ${avatar}
-            <div>
+            <div class="flex-grow">
                 <h3 class="font-bold mb-1">${mapLocation.pointOfInterest.name}</h3>
                 <div class="mb-2">${mapLocation.pointOfInterest.address}</div>
                 ${trelloLink}

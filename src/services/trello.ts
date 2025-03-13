@@ -11,7 +11,7 @@ const fetchOptions: RequestInit = {
 
 export const getCustomerCards = async (): Promise<CustomerCard[]> => {
   try {
-    const url = getUrl(`lists/${trelloConfig.AssignmentsBoardId}/cards`);
+    const url = getUrl(`lists/${trelloConfig.AssignmentsBoardId}/cards`, { fields: "all" });
     const response = await fetch(url, fetchOptions);
     if (!response.ok) throw new Error("Could not fetch customer cards from Trello");
     return await response.json();

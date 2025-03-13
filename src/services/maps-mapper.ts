@@ -1,4 +1,4 @@
-import { EmployeeCard, Member } from "./trello-types";
+import { CustomerCard, EmployeeCard, Member } from "./trello-types";
 import { MapLocation } from "@/types/map-types";
 import { getGeoLocation } from "./google-maps";
 
@@ -34,6 +34,26 @@ export const mapToMapLocation = async (
     trello: {
       id: employeeCard.id,
       url: employeeCard.shortUrl,
+    },
+  };
+};
+
+export const mapCustomerToMapLocation = async (customerCard: CustomerCard): Promise<MapLocation | undefined> => {
+  if (!customerCard.coordinates) return undefined;
+
+  return {
+    pointOfInterest: {
+      name: customerCard.name,
+      type: "Customer",
+      address: customerCard.locationName,
+    },
+    location: {
+      lat: customerCard.coordinates?.latitude,
+      lng: customerCard.coordinates?.longitude,
+    },
+    trello: {
+      id: customerCard.id,
+      url: customerCard.shortUrl,
     },
   };
 };

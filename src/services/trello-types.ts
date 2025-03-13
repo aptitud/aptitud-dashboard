@@ -1,6 +1,8 @@
 export type CustomerCard = {
   id: string;
   name: string;
+  coordinates: { latitude: number; longitude: number } | undefined;
+  locationName: string;
   shortUrl: string;
   idMembers: string[];
   desc: string;
